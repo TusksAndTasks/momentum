@@ -25,12 +25,14 @@ showTime();
 const username = document.querySelector('.name')
 
 function setLocalStorage() {
-    localStorage.setItem(username, username.value);
+    localStorage.setItem('name', username.value);
+    localStorage.setItem('city', userCity.value);
 }
 
 function getLocalStorage() {
-    if(localStorage.getItem(username)){
-    username.value = localStorage.getItem(username);}
+    if(localStorage.getItem('name')){
+    username.value = localStorage.getItem('name');
+    userCity.value = localStorage.getItem('city');}
 }
 
 window.addEventListener('beforeunload', setLocalStorage);
@@ -119,8 +121,42 @@ function getPrevSlide(){
 leftArrow.addEventListener('click', getPrevSlide);
 rightArrow.addEventListener('click', getNextSlide);
 
+//Weather
 
+const weatherIcon = document.querySelector('.weather-icon');
+const weatherDescription = document.querySelector('.weather-description');
+const weatherTemperature = document.querySelector('.temperature');
+const windSpeed = document.querySelector('.wind');
+const humidity = document.querySelector('.humidity');
+const userCity = document.querySelector('.city');
+const weatherError = document.querySelector('.weather-error');
 
+async function getWeatherReport(){
+    const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${userCity.value}&lang=en&appid=5cc23a006441156384f62c595fd1eae9&units=metric`;
+    const weatherResponse = await fetch(weatherUrl);
+    const weatherData = await weatherResponse.json();
+
+      if(weatherResponse.ok){
+    humidity.textContent = `Humidity: ${Math.round(weatherData.main.humidity)}%`;
+    windSpeed.textContent = `Wind speed: ${Math.round(weatherData.wind.speed)} m/s`;
+    weatherDescription.textContent = weatherData.weather[0].description;
+    weatherTemperature.textContent = `${Math.round(weatherData.main.temp)}°C`;
+    weatherIcon.className = 'weather-icon owf';
+    weatherIcon.classList.add(`owf-${weatherData.weather[0].id}`);
+    weatherError.textContent = ``;
+    } else  {
+        weatherError.textContent = `Error! city not found for '${userCity.value}'!`
+        humidity.textContent = ``;
+        windSpeed.textContent = ``;
+        weatherDescription.textContent = ``;
+        weatherTemperature.textContent = ``;
+        weatherIcon.className = 'weather-icon owf';
+    }
+}
+
+getWeatherReport();
+
+userCity.addEventListener('change', getWeatherReport)
 
 
 
