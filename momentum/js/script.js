@@ -12,7 +12,7 @@ function showDate(){
 
 function showTime(){
     const dateInformation = new Date();
-    const currentTime = dateInformation.toLocaleTimeString();
+    const currentTime = dateInformation.toLocaleTimeString('ru-RU');
     time.textContent = currentTime;
     showDate();
     setTimeout(showTime, 1000);
@@ -440,3 +440,14 @@ smallPlays[3].onclick = function(){
  volumeBar.addEventListener('touchmove', updateVolumeButton);
  volumeButton.addEventListener('click', toggleVolume);
  
+// Translator
+
+async function getRussianQuotes(){
+const ruQuotes = 'quotes.json';
+const ruResponse = await fetch(ruQuotes);
+const ruQuoteData = await ruResponse.json(); 
+let randomRuNumber = Math.floor(Math.random() * 23);
+
+quote.textContent = ruQuoteData[randomRuNumber].text;
+quoteAuthor.textContent = ruQuoteData[randomRuNumber].author;
+}
