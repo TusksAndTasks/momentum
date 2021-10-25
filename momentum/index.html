@@ -15,9 +15,23 @@
         <button class="play-prev player-icon"></button>
         <button class="play player-icon"></button>
         <button class="play-next player-icon"></button>
+        <div class="playlist-bar">
+          <p class="audio-title"></p>
+          <p class="audio-time"><span class="current-time">02:00</span>/<span class="duration">02:00</span></p>
+          <input type="range" value="40" min="0" max="100" step="1" class="progress progress-big">
+          <button class="volume"></button>
+          <input type="range" name="volume" value="0.40" min="0" max="1" step="0.01" class="progress progress-small">
+        </div>
       </div>
       <ul class="play-list"></ul>
+      <div class = "buttons-play">
+        <button class="small-play player-icon"></button>
+        <button class="small-play player-icon"></button>
+        <button class="small-play player-icon"></button>
+        <button class="small-play player-icon"></button>
+      </div>
     </div>
+   
     <div class="weather">
       <input type="text" class="city" value="Minsk" />
       <i class="weather-icon owf"></i>
@@ -49,6 +63,6 @@
       <div class="author"></div>
     </div>
   </footer>
-  <script src="js/script.js"></script>
+  <script  src="js/script.js"></script>
 </body>
 </html>
