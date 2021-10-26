@@ -519,6 +519,8 @@ function bigTranslator(){
     if(isRussian){
         if(userCity.value === 'Minsk'){
             userCity.value = 'Минск'
+        } else {
+            userCity.value = localStorage.getItem('city');
         }
         languageButton.textContent = 'RU'
         langText.textContent = 'Язык:';
@@ -534,6 +536,8 @@ function bigTranslator(){
     }else{
         if(userCity.value === 'Минск'){
             userCity.value = 'Minsk'
+        } else {
+            userCity.value = localStorage.getItem('city');
         }
         languageButton.textContent = 'EN'
         langText.textContent = 'Language:';
