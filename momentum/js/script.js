@@ -531,7 +531,7 @@ function changeLittleTranslators(){
 
 function bigTranslator(){
     if(isRussian){
-        if(userCity.value === 'Minsk'){
+        if(!localStorage.getItem('city')){
             userCity.value = 'Минск'
         } else {
             userCity.value = localStorage.getItem('city');
@@ -548,7 +548,7 @@ function bigTranslator(){
         weatherText.textContent = 'Погода';
         greetingText.textContent = 'Приветствие';
     }else{
-        if(userCity.value === 'Минск'){
+        if(!localStorage.getItem('city')){
             userCity.value = 'Minsk'
         } else {
             userCity.value = localStorage.getItem('city');
