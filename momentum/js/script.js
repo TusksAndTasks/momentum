@@ -115,7 +115,21 @@ function setBackground(){
     }; 
 }
 
-setBackground()
+function setCustomBackground(){
+    let sourceImg = document.querySelector('input[name=source]:checked');
+    if (sourceImg.value === 'Github'){
+        setBackground();
+    }
+    else if (sourceImg.value === 'Unsplash'){
+        setUnplashBg();
+    }
+    else if (sourceImg.value === 'Flickr'){
+        setFlickrBg();
+    }
+}
+
+
+setCustomBackground();
 
 function getNextSlide(){
     if (randomNumber < 20){
@@ -123,7 +137,7 @@ function getNextSlide(){
     } else{
         randomNumber = 1;
     }
-    setBackground();
+    setCustomBackground();
 }
 
 function getPrevSlide(){
@@ -132,7 +146,7 @@ function getPrevSlide(){
     } else {
         randomNumber = 20;
     }
-    setBackground();
+    setCustomBackground();
 }
 
 leftArrow.addEventListener('click', getPrevSlide);
@@ -565,14 +579,69 @@ languageButton.addEventListener('click', function(){
 })
 
 
+//API
+let tagForApi = '';
 
 
+function getTagForApi() {
+    tagForApi = timeOfDay;
+}
 
+getTagForApi();
+
+async function setUnplashBg() {
+    const urlUn = `https://api.unsplash.com/photos/random?orientation=landscape&query=${tagForApi}&client_id=blnoNqeh2WPkC_NFzeJ9HJaKtdM3yQd8AqMvHzuK0nU`;
+    const responseUn = await fetch(urlUn);
+    const imgUn = await responseUn.json();
+
+    const imgUnplash = new Image();
+    imgUnplash.src = imgUn.urls.regular;
+    imgUnplash.onload = () =>{
+        body.style.backgroundImage = `url(${imgUn.urls.regular})`
+    }
+}
+
+let flickrHolder = '';
+
+async function getFlickrhBg() {
+    const urlFlickr = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=51383f99f30140d64e1da3753a6a185c&tags=${tagForApi}&extras=url_l&format=json&nojsoncallback=1`;
+    const responseFlickr = await fetch(urlFlickr);
+    const imgFlickr = await responseFlickr.json();
+    flickrHolder = imgFlickr;
+    }
+
+getFlickrhBg();
+
+function setFlickrBg(){
+    const imageFlickr = new Image();
+    imageFlickr.src = flickrHolder.photos.photo[randomNumber].url_l;
+    imageFlickr.onload = () =>{
+        body.style.backgroundImage = `url(${flickrHolder.photos.photo[randomNumber].url_l})`
+    }
+}
+
+
+document.getElementById('gh').addEventListener('click', function(){
+    setCustomBackground();
+});
+document.getElementById('Unp').addEventListener('click', function(){
+    setCustomBackground();
+});
+document.getElementById('Flk').addEventListener('click', function(){
+    setCustomBackground();
+});
 
 
 //settings
 const settingsBlock = document.querySelector('.settings-block');
 const settingsButton = document.querySelector('.options-button');
+const inputTag = document.querySelector('.tag-input');
+
+function changeApiTag(){
+    tagForApi = inputTag.value;
+    getFlickrhBg();
+    setCustomBackground();
+}
 
 function hideSettings(){
     settingsBlock.classList.toggle('hide-settings');
@@ -580,3 +649,4 @@ function hideSettings(){
 }
 
 settingsButton.addEventListener('click', hideSettings)
+inputTag.addEventListener('change', changeApiTag)

@@ -19,6 +19,7 @@ body {
   overflow: hidden;
   background-blend-mode: multiply;
   transition: background-image 1s ease-in-out;
+  background-size: cover;
 }
 
 .header {
