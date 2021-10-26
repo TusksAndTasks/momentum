@@ -1,4 +1,8 @@
 // time and date
+let isRussian = false;
+let littleWeatherTranslator = '';
+let littleDataTranslator = '';
+changeLittleTranslators();
 
 const time = document.querySelector('.time');
 const date = document.querySelector('.date');
@@ -6,7 +10,7 @@ const dateOptions = {weekday: 'long', month: 'long', day: '2-digit'};
 
 function showDate(){
     const dateInformation = new Date();
-    const currentDate = dateInformation.toLocaleDateString('en-EN', dateOptions);
+    const currentDate = dateInformation.toLocaleDateString(littleDataTranslator, dateOptions);
     date.textContent = currentDate;
 }
 
@@ -21,6 +25,8 @@ function showTime(){
 showTime();
 
 //greeting
+
+
 
 const username = document.querySelector('.name')
 
@@ -41,29 +47,39 @@ window.addEventListener('load', getLocalStorage);
 
 const greeting = document.querySelector('.greeting');
 let timeOfDay = '';
+let timeOfDayRu = '';
 
 function getTimeOfDay(){
     const dateInformation = new Date();
     const hours = dateInformation.getHours();
     if(hours >= 6 && hours < 12){
         timeOfDay = 'morning';
+        timeOfDayRu = 'Доброе утро';
     }
     else if(hours >= 12 && hours < 18){
         timeOfDay = 'afternoon';
+        timeOfDayRu = 'Добрый день';
     }
     else if(hours >= 18 && hours < 24){
         timeOfDay = 'evening';
+        timeOfDayRu = 'Добрый вечер';
     }
     else{
         timeOfDay = 'night';
+        timeOfDayRu = 'Доброй ночи';
     }
 }
 
 
 function showGreeting(){
     getTimeOfDay();
-    let greetingMessage = `Good ${timeOfDay}`;
-    greeting.textContent = greetingMessage;
+    if (isRussian){
+        greeting.textContent = `${timeOfDayRu}`;
+        username.placeholder = `Введите Ваше имя`;
+    } else{
+        greeting.textContent = `Good ${timeOfDay}`;
+        username.placeholder = `Enter your name`;
+    }
     setTimeout(showGreeting, 1000);
 }
 
@@ -133,10 +149,27 @@ const userCity = document.querySelector('.city');
 const weatherError = document.querySelector('.weather-error');
 
 async function getWeatherReport(){
-    const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${userCity.value}&lang=en&appid=5cc23a006441156384f62c595fd1eae9&units=metric`;
+    const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${userCity.value}&lang=${littleWeatherTranslator}&appid=5cc23a006441156384f62c595fd1eae9&units=metric`;
     const weatherResponse = await fetch(weatherUrl);
     const weatherData = await weatherResponse.json();
-
+    if (isRussian){
+      if(weatherResponse.ok){
+        humidity.textContent = `Влажность: ${Math.round(weatherData.main.humidity)}%`;
+        windSpeed.textContent = `Скорость ветра: ${Math.round(weatherData.wind.speed)} м/с`;
+        weatherDescription.textContent = weatherData.weather[0].description;
+        weatherTemperature.textContent = `${Math.round(weatherData.main.temp)}°C`;
+        weatherIcon.className = 'weather-icon owf';
+        weatherIcon.classList.add(`owf-${weatherData.weather[0].id}`);
+        weatherError.textContent = ``;
+        } else  {
+            weatherError.textContent = `Ошибка! не найдено города по запросу '${userCity.value}'!`
+            humidity.textContent = ``;
+            windSpeed.textContent = ``;
+            weatherDescription.textContent = ``;
+            weatherTemperature.textContent = ``;
+            weatherIcon.className = 'weather-icon owf';
+        }
+    } else{
       if(weatherResponse.ok){
     humidity.textContent = `Humidity: ${Math.round(weatherData.main.humidity)}%`;
     windSpeed.textContent = `Wind speed: ${Math.round(weatherData.wind.speed)} m/s`;
@@ -153,6 +186,7 @@ async function getWeatherReport(){
         weatherTemperature.textContent = ``;
         weatherIcon.className = 'weather-icon owf';
     }
+}
 }
 
 getWeatherReport();
@@ -175,9 +209,7 @@ async function getQuote(){
     quoteAuthor.textContent = quoteData[randomQuoteNumber].author;
 }
 
-getQuote();
-
-changeQuoteButton.addEventListener('click', getQuote);
+changeQuoteButton.addEventListener('click', getLangQuote);
 
 //audio
 
@@ -441,6 +473,18 @@ smallPlays[3].onclick = function(){
  volumeButton.addEventListener('click', toggleVolume);
  
 // Translator
+const languageButton = document.querySelector('.lang');
+const langText = document.querySelector('.lang-text');
+const changeText = document.querySelector('.change-text');
+const tagText = document.querySelector('.tag-text');
+const hideText = document.querySelector('.hide-text');
+const timeText = document.querySelector('.time-text');
+const dateText = document.querySelector('.date-text');
+const audioText = document.querySelector('.audio-text');
+const quoteText = document.querySelector('.quote-text');
+const weatherText = document.querySelector('.weather-text');
+const greetingText = document.querySelector('.greeting-text');
+
 
 async function getRussianQuotes(){
 const ruQuotes = 'quotes.json';
@@ -448,6 +492,87 @@ const ruResponse = await fetch(ruQuotes);
 const ruQuoteData = await ruResponse.json(); 
 let randomRuNumber = Math.floor(Math.random() * 23);
 
+
 quote.textContent = ruQuoteData[randomRuNumber].text;
 quoteAuthor.textContent = ruQuoteData[randomRuNumber].author;
 }
+
+function getLangQuote(){
+    if(isRussian){
+        getRussianQuotes()
+    } else{
+        getQuote();
+    }
+}
+
+function changeLittleTranslators(){
+      if(isRussian){
+          littleWeatherTranslator = 'ru';
+          littleDataTranslator = 'ru-RU';
+      } else{
+        littleWeatherTranslator = 'en';
+        littleDataTranslator = 'en-EN';
+      }
+}
+
+function bigTranslator(){
+    if(isRussian){
+        if(userCity.value === 'Minsk'){
+            userCity.value = 'Минск'
+        }
+        languageButton.textContent = 'RU'
+        langText.textContent = 'Язык:';
+        changeText.textContent = 'Источник изображений:';
+        tagText.textContent = 'Тэг изображений (только для API):';
+        hideText.textContent = 'Отображать:';
+        timeText.textContent = 'Время';
+        dateText.textContent = 'Дата';
+        audioText.textContent = 'Аудио Плеер';
+        quoteText.textContent = 'Цитаты';
+        weatherText.textContent = 'Погода';
+        greetingText.textContent = 'Приветствие';
+    }else{
+        if(userCity.value === 'Минск'){
+            userCity.value = 'Minsk'
+        }
+        languageButton.textContent = 'EN'
+        langText.textContent = 'Language:';
+        changeText.textContent = 'Image-source:';
+        tagText.textContent = 'Picture tag (for API only):';
+        hideText.textContent = 'Show:';
+        timeText.textContent = 'Time';
+        dateText.textContent = 'Date';
+        audioText.textContent = 'Audio Player';
+        quoteText.textContent = 'Quotes';
+        weatherText.textContent = 'Weather';
+        greetingText.textContent = 'Greeting';
+    }
+}
+
+getLangQuote();
+bigTranslator();
+
+languageButton.addEventListener('click', function(){
+    isRussian = !isRussian;
+    getLangQuote();
+    changeLittleTranslators();
+    getWeatherReport();
+    bigTranslator()
+})
+
+
+
+
+
+
+
+//settings
+const settingsBlock = document.querySelector('.settings-block');
+const settingsButton = document.querySelector('.options-button');
+
+function hideSettings(){
+    settingsBlock.classList.toggle('hide-settings');
+    settingsButton.classList.toggle('hide-settings-button');
+}
+
+settingsButton.addEventListener('click', hideSettings)

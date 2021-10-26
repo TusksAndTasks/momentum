@@ -16,7 +16,7 @@ body {
   font-size: 16px;
   color: #fff;
   text-align: center;
-  
+  overflow: hidden;
   background-blend-mode: multiply;
   transition: background-image 1s ease-in-out;
 }
@@ -344,4 +344,64 @@ body {
   height: 112px;
   justify-content: space-around;
   transform: translate(40%, -112px);
+}
+
+.settings-block{
+  display: flex;
+  justify-content: space-between;
+  width: 15%;
+  flex-flow: column nowrap;
+  align-items: flex-start;
+  min-height: 300px;
+  position: absolute;
+  right: -15%;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  transition: 0.5s;
+}
+
+.hide-block{
+  display: flex;
+  flex-flow: column wrap;
+  width: 100%;
+  height: 60px;
+  align-items: flex-start;
+  gap: 10px 10px;
+}
+
+.lang{
+  border: none;
+  background-color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  border-radius: 2px;
+  min-width: 10px;
+  min-height: 10px;
+}
+
+.settings-block input{
+  cursor: pointer;
+}
+
+.options-button{
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  right: 0;
+  bottom: 27%;
+  background-image: url("../assets/svg/settings.png");
+  background-size: contain;
+  background-color: rgba(255, 255, 255, 0.5);
+  border: none;
+  border-radius: 40% 0 0 40%;
+  transition: 0.5s;
+}
+
+.hide-settings{
+  right: 0;
+  transition: 0.5s;
+}
+
+.hide-settings-button{
+  right: 15%;
+  transition: 0.5s;
 }

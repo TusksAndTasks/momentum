@@ -53,7 +53,7 @@
     <date class="date"></date>
     <div class="greeting-container">
       <span class="greeting"></span>
-      <input type="text" class="name" placeholder="Enter your name" />
+      <input type="text" class="name" />
     </div>
   </main>
   <footer class="footer">
@@ -61,6 +61,56 @@
     <div>
       <div class="quote"></div>
       <div class="author"></div>
+    </div>
+    <button class="options-button"></button>
+    <div class="settings-block">
+      <div class="lang-block"><span class="lang-text"></span><button class="lang">EN</button></div>
+      <p class="change-text"></p>
+      <div class="change-block">
+        <label>
+          <input name="source" type="radio" value="Github" checked>
+          Github
+        </label>
+        <label>
+          <input name="source" type="radio" value="Unsplash">
+          Unsplash API
+        </label>
+        <label>
+          <input name="source" type="radio" value="Flickr">
+          Flickr API
+        </label>
+        </div>
+        <p class="tag-text"></p>
+        <div class="tag-block">
+           <input type="text">
+        </div>
+        <p class="hide-text"></p>
+        <div class="hide-block">
+          <label>
+            <input name="time" type="checkbox" value="time" checked>
+            <span class="time-text"></span>
+          </label>
+          <label>
+            <input name="date" type="checkbox" value="date" checked>
+            <span class="date-text"></span> 
+          </label>
+          <label>
+            <input name="audio" type="checkbox" value="audio" checked>
+            <span class="audio-text"></span>
+          </label>
+          <label>
+            <input name="quote" type="checkbox" value="quote" checked>
+            <span class="quote-text"></span>
+          </label>
+          <label>
+            <input name="weather" type="checkbox" value="weather" checked>
+            <span class="weather-text"></span> 
+          </label>
+          <label>
+            <input name="greeting" type="checkbox" value="greeting" checked>
+            <span class="greeting-text"></span>
+          </label>
+        </div>
     </div>
   </footer>
   <script  src="js/script.js"></script>
