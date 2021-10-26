@@ -636,6 +636,24 @@ document.getElementById('Flk').addEventListener('click', function(){
 const settingsBlock = document.querySelector('.settings-block');
 const settingsButton = document.querySelector('.options-button');
 const inputTag = document.querySelector('.tag-input');
+const timeSetting = document.querySelector('input[name=time]');
+const dateSetting = document.querySelector('input[name=date]');
+const audioSetting = document.querySelector('input[name=audio]');
+const quoteSetting = document.querySelector('input[name=quote]');
+const weatherSetting = document.querySelector('input[name=weather]');
+const greetingSetting = document.querySelector('input[name=greeting');
+//time
+//date
+const audioContainer = document.querySelector('.player');
+const quoteContainer = document.querySelector('.quote-container');
+//changeQuoteButton 
+const weatherContainer = document.querySelector('.weather');
+const greetingContainer = document.querySelector('.greeting-container');
+
+function hideObject(object){
+    object.classList.toggle('hidden');
+}
+
 
 function changeApiTag(){
     tagForApi = inputTag.value;
@@ -650,3 +668,22 @@ function hideSettings(){
 
 settingsButton.addEventListener('click', hideSettings)
 inputTag.addEventListener('change', changeApiTag)
+timeSetting.addEventListener('click', function(){
+    hideObject(time);
+});
+dateSetting.addEventListener('click', function(){
+    hideObject(date);
+});
+audioSetting.addEventListener('click', function(){
+    hideObject(audioContainer);
+});
+quoteSetting.addEventListener('click', function(){
+    hideObject(quoteContainer);
+    hideObject(changeQuoteButton);
+});
+weatherSetting.addEventListener('click', function(){
+    hideObject(weatherContainer);
+});
+greetingSetting.addEventListener('click', function(){
+    hideObject(greetingContainer);
+});
