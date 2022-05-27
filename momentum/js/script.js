@@ -41,8 +41,7 @@ function getLocalStorage() {
     userCity.value = localStorage.getItem('city');}
 }
 
-window.addEventListener('beforeunload', setLocalStorage);
-window.addEventListener('load', getLocalStorage);
+
 
 
 const greeting = document.querySelector('.greeting');
@@ -117,6 +116,7 @@ function setBackground(){
 
 function setCustomBackground(){
     let sourceImg = document.querySelector('input[name=source]:checked');
+    console.log(sourceImg.value);
     if (sourceImg.value === 'Github'){
         setBackground();
     }
@@ -127,9 +127,6 @@ function setCustomBackground(){
         setFlickrBg();
     }
 }
-
-
-setCustomBackground();
 
 function getNextSlide(){
     if (randomNumber < 20){
@@ -581,6 +578,7 @@ languageButton.addEventListener('click', function(){
 
 //API
 let tagForApi = '';
+let flickrHolder = '';
 
 
 function getTagForApi() {
@@ -601,7 +599,6 @@ async function setUnplashBg() {
     }
 }
 
-let flickrHolder = '';
 
 async function getFlickrhBg() {
     const urlFlickr = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=51383f99f30140d64e1da3753a6a185c&tags=${tagForApi}&extras=url_l&format=json&nojsoncallback=1`;
@@ -687,3 +684,9 @@ weatherSetting.addEventListener('click', function(){
 greetingSetting.addEventListener('click', function(){
     hideObject(greetingContainer);
 });
+
+
+// start functions
+setCustomBackground();
+window.addEventListener('beforeunload', setLocalStorage);
+window.addEventListener('load', getLocalStorage);
